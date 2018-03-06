@@ -1,27 +1,14 @@
-if 3 + min(4,5) == 7:
-    print 'yes'
+import StringIO
+from flask import Flask, render_template, make_response
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
+app = Flask(__name__)
+data_dict = addTogether('./results/random/score_old.json')
 
+@app.route('/')
+def index():
+    return 'hello world'
 
-
-
-
-
-
-
-
-
-
-
-
-"""
-import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument("--square", default=None, help="display a square of a given number", type=int)
-parser.add_argument("--cubic", default=None, help="display a cubic of a given number", type=int)
-args = parser.parse_args()
-if args.square is None:
-    print 'args.square is None'
-if args.cubic:
-    print args.cubic**3
-"""
+if __name__ == '__main__':
+    app.run(debug=True)

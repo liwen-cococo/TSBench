@@ -2,7 +2,6 @@ import os
 import helper
 import scoring
 from tsbench.algorithms.random.random_detector import RandomDetector as selectedDetector
-try:
   import simplejson as json
 except ImportError:
   import json
