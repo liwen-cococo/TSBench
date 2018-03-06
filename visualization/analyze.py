@@ -5,7 +5,7 @@ from matplotlib.figure import Figure
 from tsbench.scoring import addTogether
 from tsbench.helper import getSingleData
 
-analyze = Blueprint('analyze', __name__)
+analyze = Blueprint('analyze', __name__, template_folder='./templates')
 
 @analyze.route('/data/<dir_name>/<file_name>')
 def plotFile(dir_name, file_name):
