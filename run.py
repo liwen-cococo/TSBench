@@ -5,13 +5,19 @@ from tsbench.runner import Runner
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('algorithm_name', help='name of algorithm to run')
+
+    parser.add_argument('algorithmName', help='name of algorithm to run')
     parser.add_argument('proportion', type=float, help='training dataset proportion')
+    parser.add_argument('scoring', choices=['old', 'pei', 'new'], help='scoring mechanism(old, new, pei)')
+    parser.add_argument('--delay', default=None, type=int, help='non-negative integer')
+    
     args = parser.parse_args()
     assert 0.0 < args.proportion < 1.0
+    assert args.delay >= 0
 
-    adjust()
+    adjust(args.algorithmName)
 
-    r = Runner(args.algorithm_name, args.proportion)
+    r = Runner(args.algorithmName, args.proportion, args.scoring, args.delay)
     r.execute()
-    print 'successfully done'
+    
+    print 'Successfully Done [Hooray]!'

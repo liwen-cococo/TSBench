@@ -7,7 +7,7 @@ from tsbench.scoring import addTogether
 from tsbench.helper import getSingleData
 
 app = Flask(__name__)
-data_dict = addTogether('./results/random/scoreTraditional.json')
+data_dict = addTogether('./results/random/score_old.json')
 
 @app.route('/')
 def index():
@@ -53,11 +53,9 @@ def index():
 def plotFile(dir_name, file_name):
     return render_template('details.html', text='/text/'+dir_name+'/'+file_name, png='/png/'+dir_name+'/'+file_name)
 
-
 @app.route('/text/<dir_name>/<file_name>')
 def text(dir_name, file_name):
     return 'TO DO: illustration about this file'
-
 
 @app.route('/png/<dir_name>/<file_name>')
 def png(dir_name, file_name):

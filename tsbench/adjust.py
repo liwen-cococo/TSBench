@@ -1,6 +1,6 @@
-# modify file-runner.py
+# modify file: ./runner.py
 # modify line 4 --- import algorithm
-def adjust():
+def adjust(algorithm_name):
     # TO DO
     pass
     

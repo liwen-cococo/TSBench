@@ -4,18 +4,8 @@ except ImportError:
   import json
 import os
 
-def sTraditional(t_labels, detected, f_length, l_length):
-    """
-    @param t_labels (dict) true anomaly-index labels
-    @param detected (dict) detected labels by specific algorithm
-    @param f_length (int)  traing data length
-    @param l_length (int)  test data length
-    """
-    TP = 0
-    TN = 0
-    FP = 0
-    FN = 0
-
+def sOld(t_labels, detected, f_length, l_length):
+    (TP, TN, FP, FN) = (0, 0, 0, 0)
     a_length = f_length + l_length
     for id in xrange(f_length, a_length):
         x1 = id in t_labels
@@ -28,12 +18,56 @@ def sTraditional(t_labels, detected, f_length, l_length):
             FN += 1
         else:
             TN += 1
-    
-    Precision = (TP + 0.0) / (TP + FP +0.0)
-    Recall = (TP + 0.0) / (TP + FN +0.0)
-    FScore = 2 * Precision * Recall / (Precision + Recall)
+    return (TP, TN, FP, FN)
 
-    return (TP, TN, FP, FN, Precision, Recall, FScore)
+def sPei_New(delay, pei_new, t_labels, detected, f_length, l_length):
+    (TP, TN, FP, FN) = (0, 0, 0, 0)
+    a_length = f_length + l_length
+    id = f_length
+    while id < a_length:
+        anomaly_duration = 0
+        while id + anomaly_duration in t_labels:
+            anomaly_duration += 1
+        right_most = id + min(anomaly_duration, delay+1)
+        flag = 0
+        for t in xrange(id, right_most):
+            if t in detected:
+                flag = 1
+                break
+        if flag == 1: # all -> 1 (TP)
+            if pei_new == 'pei':
+                TP += anomaly_duration
+            else:
+                TP += 1
+        elif anomaly_duration > 0: # all -> 0 (FN)
+            if pei_new == 'pei':
+                FN += anomaly_duration
+            else:
+                FN += 1
+        else: # This is not an anomaly
+            if id in detected:
+                FP += 1
+            else:
+                TN += 1
+        id += max(1, anomaly_duration)
+    
+    return (TP, TN, FP, FN)
+
+def score(scoring_name, delay, t_labels, detected, f_length, l_length):
+    """
+    @param scoring_name (str) name of scoring scheme
+    @param delay    (int)  non-negative number
+    @param t_labels (list) true anomaly-index labels
+    @param detected (list) detected labels by specific algorithm
+    @param f_length (int)  training data length
+    @param l_length (int)  test data length
+    """
+    if scoring_name == 'old':
+        return sOld(t_labels, detected, f_length, l_length)
+    elif scoring_name == 'new':
+        return sPei_New(delay, 'new', t_labels, detected, f_length, l_length)
+    else:
+        return sPei_New(delay, 'pei', t_labels, detected, f_length, l_length)
 
 
 def addTogether(score_json_path):
@@ -69,5 +103,3 @@ if __name__ == '__main__':
     for k in r:
         print k, r[k]
         print ''
-
-
