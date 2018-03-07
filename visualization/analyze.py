@@ -14,13 +14,17 @@ analyze = Blueprint('analyze', __name__, template_folder='./templates')
 @analyze.route('/<algo_name>/<scor_name>/data/<dir_name>/<file_name>/')
 def plotFile(algo_name, scor_name, dir_name, file_name):
     return render_template('details.html', 
-                            text='/text/'+algo_name+'/'+scor_name+'/'+dir_name+'/'+file_name, 
-                            png_true='/png_true/'+dir_name+'/'+file_name,
-                            png_detected='/png_detected/'+algo_name+'/'+dir_name+'/'+file_name)
+                            text='/text/'+algo_name+'/'+scor_name+'/'+dir_name+'/'+file_name+'/', 
+                            png_true='/png_true/'+dir_name+'/'+file_name+'/',
+                            png_detected='/png_detected/'+algo_name+'/'+dir_name+'/'+file_name+'/')
 
 @analyze.route('/text/<algo_name>/<scor_name>/<dir_name>/<file_name>/')
 def text(algo_name, scor_name, dir_name, file_name):
-    return 'TO DO: illustration about this file'
+    with open('./results/{0}/score_{1}.json'.format(algo_name, scor_name)) as f:
+        scores = json.load(f)['./data/{0}/{1}'.format(dir_name, file_name)]
+    message = "TP: {0}  TN: {1}  FP: {2}  FN: {3}  <p>Precision: {4}</p><p>Recall: {5}</p><p>FScore: {6}</p>".format(
+            scores[0], scores[1], scores[2], scores[3], scores[4], scores[5], scores[6])
+    return message
 
 @analyze.route('/png_true/<dir_name>/<file_name>/')
 def png_true(dir_name, file_name):
