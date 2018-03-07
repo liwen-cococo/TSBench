@@ -13,7 +13,8 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     assert 0.0 < args.proportion < 1.0
-    assert args.delay >= 0
+    if not args.scoring=='old':
+        assert args.delay >= 0
 
     adjust(args.algorithmName)
 

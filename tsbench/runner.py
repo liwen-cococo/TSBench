@@ -2,7 +2,8 @@ import os
 import helper
 import scoring
 from tsbench.algorithms.random.random_detector import RandomDetector as selectedDetector
-  import simplejson as json
+try:
+    import simplejson as json
 except ImportError:
   import json
 
@@ -52,7 +53,12 @@ class Runner(object):
         with open(json_path, 'w') as f:
             json.dump(scores, f, indent=4)
     
+    def saveProportion(self):
+        with open('./results/{0}/proportion.txt'.format(self.algorithm), 'w') as f:
+            f.write(str(self.proportion))
+
     def execute(self):
         # to be done
         self.detectResultToFile()
         self.scoreAndWriteResult()
+        self.saveProportion()

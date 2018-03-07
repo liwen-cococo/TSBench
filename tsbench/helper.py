@@ -29,11 +29,10 @@ def getSingleData(file_path):
         i = 0
         for r in rows:
             if i > 0:
-                results.append(r[1])
+                results.append(float(r[1]))
             else:
                 i = 1
     return results
-
 
 def getData(root_path='./data/'):
     """
@@ -54,4 +53,4 @@ def getLabels(labels_file_path='./data/labels.json'):
 
 
 if __name__ == '__main__':
-    print getSingleData('./data/dir_1/1_1.csv')
+    print getSingleData('E:/TSBench/data/dir_1/1_1.csv')
