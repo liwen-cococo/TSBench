@@ -2,7 +2,7 @@ from flask import Blueprint
 from tsbench.scoring import addTogether
 result = Blueprint('result', __name__)
 
-@result.route('/<algo_name>/<scor_name>')
+@result.route('/<algo_name>/<scor_name>/')
 def index(algo_name, scor_name):
     data_dict = addTogether('./results/{0}/score_{1}.json'.format(algo_name, scor_name))
     message = """
