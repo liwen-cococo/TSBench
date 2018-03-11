@@ -33,13 +33,18 @@ class AnomalyDetector(object):
         assert False
     
     @abc.abstractmethod
-    def detectPhase(self, latter_values):
+    def isAnomaly(self, value):
         """
         This method MUST be overridden by subclasses.
-        You need to return a list of anomaly detection results.
-        Note: Returned list should have the same length with 'values'.
+        You need to return an integer 0(normal) or 1(abnormal)
         """
         assert False
+
+    def __detectPhase(self, latter_values):
+        """
+        Note: Returned list should have the same length with 'values'.
+        """
+        return map(self.isAnomaly, latter_values)
     
     def run(self):
         """
@@ -60,7 +65,7 @@ class AnomalyDetector(object):
         self.trainPhase(_front_values, _front_labels)
 
         # results_0_1 is a list that consists of either 0(normal) or 1(abnormal)
-        results_0_1 = self.detectPhase(_latter_values)
+        results_0_1 = self.__detectPhase(_latter_values)
         # print results_0_1
 
         results_index= []

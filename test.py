@@ -1,4 +1,7 @@
-x = [0.1237, 11.78, 1.2, 1.0, 11.238920]
-y = round(x[4], 4)
-print x
-print y
+class Test(object):
+    def f1(self):
+        self.x = "hello"
+    def f2(self):
+        print self.x+" world"
+t = Test()
+t.f2()

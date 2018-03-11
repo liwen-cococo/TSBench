@@ -12,7 +12,7 @@ if __name__ == '__main__':
     parser.add_argument('--delay', default=None, type=int, help='non-negative integer')
     
     args = parser.parse_args()
-    assert 0.0 < args.proportion < 1.0
+    assert 0.0 <= args.proportion < 1.0
     if not args.scoring=='old':
         assert args.delay >= 0
 

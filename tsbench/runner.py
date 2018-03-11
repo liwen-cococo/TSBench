@@ -1,7 +1,7 @@
 import os
 import helper
 import scoring
-from tsbench.algorithms.random.random_detector import RandomDetector as selectedDetector
+from tsbench.algorithms.knncad.knncad_detector import KnncadDetector as selectedDetector
 try:
     import simplejson as json
 except ImportError:
