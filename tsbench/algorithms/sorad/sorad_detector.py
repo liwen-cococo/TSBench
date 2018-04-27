@@ -4,6 +4,10 @@ import math
 import numpy as np
 from numpy.linalg import LinAlgError
 from scipy import stats
+try:
+    import simplejson as json
+except ImportError:
+  import json
 
 
 class SoradDetector(AnomalyDetector):
@@ -20,14 +24,17 @@ class SoradDetector(AnomalyDetector):
         threshold: anomaly threshold for calculating quantile
         window_size: use previous window_size points to predict next point
         """
-        self.f_rls = 0.9
-        self.f_ms = 0.9
-        self.threshold = 0.999999
-        self.ws = 3 # window size
+        (self.f_rls, self.f_ms, self.threshold, self.ws) = self.initialize()
         (self.__P, self.theta) = None, None # will be initilied in trainPhase
         self.oemv = OEMV(self.f_ms)
         self.lastvalues = self.ws * [0.0] # keep updating
-    
+        
+    def initialize(self):
+        with open("./tsbench/algorithms/sorad/parameters.json") as f:
+            data = json.load(f)
+            param = data[self.filename]
+            return (param['f_rls'], param['f_ms'], param['threshold'], param['ws'])
+
     def trainPhase(self, front_values, front_labels):
         (self.__P, self.theta) = self.initial(front_values[:self.ws+2])
 

@@ -1,7 +1,7 @@
 import os
 import helper
 import scoring
-from tsbench.algorithms.knncad.knncad_detector import KnncadDetector as selectedDetector
+from tsbench.algorithms.sorad.sorad_detector import SoradDetector as selectedDetector
 try:
     import simplejson as json
 except ImportError:
@@ -19,9 +19,16 @@ class Runner(object):
         self.anomaly_results = self.detect()
     
     def detect(self):
+        """ execute self-defined detectors"""
         results = {}
+        i = 1
         for k in self.values:
-            sd = selectedDetector(self.values[k], self.labels[k], self.proportion)
+            print k, 'detect done',
+            for _ in xrange(i):
+                print '.',
+            print ''
+            i += 1
+            sd = selectedDetector(k, self.values[k], self.labels[k], self.proportion)
             results[k] = sd.run() # return index of detected abnormal point 
         return results
 
@@ -60,5 +67,6 @@ class Runner(object):
     def execute(self):
         # to be done
         self.detectResultToFile()
+        print 'detect successfully done.\nwriting results to file'
         self.scoreAndWriteResult()
         self.saveProportion()

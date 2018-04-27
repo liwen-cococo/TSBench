@@ -89,11 +89,14 @@ def addTogether(score_json_path):
     
     # calculate Precision, Recall and F-Score
     for r in results:
-        results[r][4] = (results[r][0] + 0.0) / (results[r][0] + results[r][2] + 0.0)  # Precision = TP/(TP + FP)
-        results[r][5] = (results[r][0] + 0.0) / (results[r][0] + results[r][3] + 0.0)  # Recall = TP/(TP + FN)
-        results[r][6] = round(2 * results[r][4] * results[r][5] / (results[r][4] + results[r][5]), 4)
-        results[r][4] = round(results[r][4], 4)
-        results[r][5] = round(results[r][5], 4)
+        try:
+            results[r][4] = (results[r][0] + 0.0) / (results[r][0] + results[r][2] + 0.0)  # Precision = TP/(TP + FP)
+            results[r][5] = (results[r][0] + 0.0) / (results[r][0] + results[r][3] + 0.0)  # Recall = TP/(TP + FN)
+            results[r][6] = round(2 * results[r][4] * results[r][5] / (results[r][4] + results[r][5]), 4)
+            results[r][4] = round(results[r][4], 4)
+            results[r][5] = round(results[r][5], 4)
+        except ZeroDivisionError:
+            results[r][4], results[r][5], results[r][6] = 0.0, 0.0, 0.0
         
     return results
 

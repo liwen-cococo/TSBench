@@ -7,7 +7,7 @@ class RandomDetector(AnomalyDetector):
     """
     def __init__(self, *args, **kwargs):
         super(RandomDetector, self).__init__(*args, **kwargs)
-    
+        
     def trainPhase(self, front_values, front_labels):
         self.rate = (front_labels.__len__() + 0.0) / (front_values.__len__() + 0.0)
 

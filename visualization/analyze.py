@@ -48,6 +48,7 @@ def png_true(dir_name, file_name):
     canvas = FigureCanvas(fig)
     output = StringIO.StringIO()
     canvas.print_png(output)
+    #fig.savefig(file_path[:-4]+'.png')
     response = make_response(output.getvalue())
     response.mimetype = 'image/png'
     return response

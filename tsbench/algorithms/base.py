@@ -7,13 +7,15 @@ class AnomalyDetector(object):
     """
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, values, labels, proportion):
+    def __init__(self, filename, values, labels, proportion):
         """
-        dataSet: a list of an ordered time-series data(Timestamp is continuous)
+        filename: time-series data filename
+        dataSet(values & labels): a list of an ordered time-series data(Timestamp is continuous)
         proportion: training_length / total_length
         For example, there are 2000 elements(timestamps) in data_set and proportion is 0.6. 
         Then the first 2000*0.6 = 1200 will be used for training and the left 800 elements will be in testing.
         """
+        self.filename = filename
         self.values = values
         self.labels = labels
         self.proportion = proportion
